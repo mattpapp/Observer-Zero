@@ -1,0 +1,243 @@
+/* Base styles */
+:root {
+  --primary-color: #00ffaa;
+  --background-color: #000000;
+  --text-color: #ffffff;
+  --dormant-color: #333333;
+  --glow-color: rgba(0, 255, 170, 0.5);
+  --pulse-duration: 8s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+}
+
+#observer-zero {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* State management */
+.state {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  pointer-events: none;
+}
+
+.state.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Dormant state - when no one is watching */
+#dormant-state {
+  background-color: var(--background-color);
+}
+
+#dormant-state p {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: fadeInOut 4s infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Active state - when at least one person is watching */
+#active-state {
+  background: radial-gradient(circle at center, rgba(0, 20, 15, 0.8) 0%, rgba(0, 0, 0, 1) 70%);
+}
+
+/* Awareness indicator */
+#awareness-indicator {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  animation: pulse var(--pulse-duration) ease-in-out infinite;
+  opacity: 0.4;
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.2; }
+  100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+}
+
+#observer-count {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--glow-color);
+}
+
+#observer-number {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  /* Adjust font size dynamically with CSS */
+  transition: font-size 0.3s ease;
+}
+
+/* Font size adjustments for large numbers */
+#observer-number.digits-3 {
+  font-size: 1.6rem;
+}
+
+#observer-number.digits-4 {
+  font-size: 1.4rem;
+}
+
+#observer-number.digits-5 {
+  font-size: 1.2rem;
+}
+
+/* Visual container for particles and canvas */
+#visual-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+#particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#awareness-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Observer information */
+#observer-info {
+  position: absolute;
+  bottom: 15%;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+}
+
+#observer-status {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+#observer-message {
+  font-size: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
+  opacity: 0.6;
+}
+
+/* Secret messages */
+#secret-messages {
+  position: absolute;
+  top: 60%;
+  width: 80%;
+  max-width: 800px;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  text-align: center;
+  z-index: 15;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pulse-ring {
+    width: 120px;
+    height: 120px;
+  }
+  
+  #observer-count {
+    width: 70px;
+    height: 70px;
+  }
+  
+  #observer-number {
+    font-size: 1.5rem;
+  }
+  
+  #observer-number.digits-3 {
+    font-size: 1.3rem;
+  }
+  
+  #observer-number.digits-4 {
+    font-size: 1.1rem;
+  }
+  
+  #observer-number.digits-5 {
+    font-size: 0.9rem;
+  }
+  
+  #dormant-state p {
+    font-size: 1.2rem;
+  }
+  
+  #observer-status {
+    font-size: 1rem;
+  }
+  
+  #observer-message {
+    font-size: 0.9rem;
+  }
+} 

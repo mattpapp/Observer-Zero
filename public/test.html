@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observer Zero - Test Panel</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #000;
+      color: #00ffaa;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    h1 {
+      margin-bottom: 30px;
+    }
+    
+    .control-panel {
+      max-width: 500px;
+      margin: 0 auto;
+      border: 1px solid #00ffaa;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    
+    input[type="number"] {
+      background-color: #111;
+      color: #00ffaa;
+      border: 1px solid #00ffaa;
+      padding: 10px;
+      font-size: 18px;
+      width: 150px;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+    
+    button {
+      background-color: #00ffaa;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    
+    .presets {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    
+    .preset-btn {
+      margin: 5px;
+      background-color: #004433;
+      color: #00ffaa;
+    }
+    
+    #status {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Observer Zero - Test Panel</h1>
+  <div class="control-panel">
+    <div>
+      <input type="number" id="observerCount" min="0" max="10000" value="5000">
+      <button id="setCount">Set Observer Count</button>
+    </div>
+    
+    <div class="presets">
+      <button class="preset-btn" data-count="1">1</button>
+      <button class="preset-btn" data-count="3">3</button>
+      <button class="preset-btn" data-count="5">5</button>
+      <button class="preset-btn" data-count="10">10</button>
+      <button class="preset-btn" data-count="50">50</button>
+      <button class="preset-btn" data-count="100">100</button>
+      <button class="preset-btn" data-count="500">500</button>
+      <button class="preset-btn" data-count="1000">1000</button>
+      <button class="preset-btn" data-count="5000">5000</button>
+    </div>
+    
+    <div id="status">Ready to set observer count.</div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const socket = io();
+      const countInput = document.getElementById('observerCount');
+      const setButton = document.getElementById('setCount');
+      const presetButtons = document.querySelectorAll('.preset-btn');
+      const statusEl = document.getElementById('status');
+      
+      // Set count manually
+      setButton.addEventListener('click', () => {
+        const count = parseInt(countInput.value);
+        setObserverCount(count);
+      });
+      
+      // Preset buttons
+      presetButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const count = parseInt(btn.dataset.count);
+          countInput.value = count;
+          setObserverCount(count);
+        });
+      });
+      
+      // Function to set observer count by manipulating the activeObservers variable directly
+      function setObserverCount(count) {
+        if (isNaN(count) || count < 0) {
+          showStatus('Please enter a valid number', 'error');
+          return;
+        }
+        
+        // Create a custom event that the main Observer Zero app will listen for
+        const event = new CustomEvent('observer:force-count', { detail: { count } });
+        window.parent.document.dispatchEvent(event);
+        
+        showStatus(`Set observer count to ${count}`, 'success');
+      }
+      
+      // Show status message
+      function showStatus(message, type = 'info') {
+        statusEl.textContent = message;
+        statusEl.style.color = type === 'error' ? '#ff3366' : '#00ffaa';
+        
+        // Reset after 3 seconds
+        setTimeout(() => {
+          statusEl.textContent = 'Ready to set observer count.';
+          statusEl.style.color = '#00ffaa';
+        }, 3000);
+      }
+    });
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+</body>
+</html> 

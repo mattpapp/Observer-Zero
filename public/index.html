@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observer Zero</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👁️</text></svg>">
+  <meta name="description" content="A website that exists only when someone is watching it">
+</head>
+<body>
+  <div id="observer-zero">
+    <!-- Initial dormant state -->
+    <div id="dormant-state" class="state active">
+      <p>This place lives only through attention.</p>
+    </div>
+
+    <!-- Active state that appears when observers are present -->
+    <div id="active-state" class="state">
+      <!-- Awareness indicator shows current observer level -->
+      <div id="awareness-indicator">
+        <div class="pulse-ring"></div>
+        <div id="observer-count">
+          <span id="observer-number">0</span>
+        </div>
+      </div>
+
+      <!-- Visual elements that respond to observer count -->
+      <div id="visual-container">
+        <div id="particles"></div>
+        <canvas id="awareness-canvas"></canvas>
+      </div>
+
+      <!-- Information about current state -->
+      <div id="observer-info">
+        <p id="observer-status">You are Observer <span id="your-number">0</span>.</p>
+        <p id="observer-message"></p>
+      </div>
+
+      <!-- Secret messages that only appear at certain thresholds -->
+      <div id="secret-messages"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+  <script src="visuals.js"></script>
+  <script src="audio.js"></script>
+</body>
+</html> 

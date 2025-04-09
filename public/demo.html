@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observer Zero Demo Controller</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #111;
+      color: #eee;
+    }
+    h1 {
+      color: #00ffaa;
+    }
+    .control-panel {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #00ffaa;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00cc88;
+    }
+    .preset-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .preset-buttons button {
+      width: 100%;
+    }
+    .status {
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #333;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Observer Zero Demo Controller</h1>
+  
+  <div class="control-panel">
+    <h2>Set Observer Count</h2>
+    <p>Use this panel to simulate any number of observers for testing and demonstration purposes.</p>
+    
+    <input type="number" id="observer-count" min="0" max="10000" value="1" placeholder="Enter observer count">
+    <button id="set-count-btn">Set Observer Count</button>
+    
+    <div class="preset-buttons">
+      <button class="preset" data-count="3">3 Observers</button>
+      <button class="preset" data-count="10">10 Observers</button>
+      <button class="preset" data-count="20">20 Observers</button>
+      <button class="preset" data-count="50">50 Observers</button>
+      <button class="preset" data-count="100">100 Observers</button>
+      <button class="preset" data-count="500">500 Observers</button>
+      <button class="preset" data-count="1000">1000 Observers</button>
+      <button class="preset" data-count="5000">5000 Observers</button>
+      <button class="preset" data-count="0">Reset (0)</button>
+    </div>
+    
+    <div class="status" id="status">Status: Ready</div>
+  </div>
+  
+  <div>
+    <p><a href="/" target="_blank" style="color: #00ffaa;">Open Observer Zero</a> in another tab to see the effect of changing observer counts.</p>
+    <p>Note: This is a demonstration tool for testing purposes only.</p>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const countInput = document.getElementById('observer-count');
+      const setCountBtn = document.getElementById('set-count-btn');
+      const statusEl = document.getElementById('status');
+      const presetButtons = document.querySelectorAll('.preset');
+      
+      // Set count button click handler
+      setCountBtn.addEventListener('click', () => {
+        const count = parseInt(countInput.value);
+        if (isNaN(count) || count < 0) {
+          statusEl.textContent = 'Status: Please enter a valid number';
+          return;
+        }
+        
+        setObserverCount(count);
+      });
+      
+      // Preset button handlers
+      presetButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const count = parseInt(button.dataset.count);
+          countInput.value = count;
+          setObserverCount(count);
+        });
+      });
+      
+      // Function to set observer count via API
+      function setObserverCount(count) {
+        statusEl.textContent = `Status: Setting observer count to ${count}...`;
+        
+        fetch(`/force-count/${count}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              statusEl.textContent = `Status: Observer count set to ${data.count}`;
+            } else {
+              statusEl.textContent = `Status: Error: ${data.error}`;
+            }
+          })
+          .catch(error => {
+            statusEl.textContent = `Status: Error: ${error.message}`;
+          });
+      }
+    });
+  </script>
+</body>
+</html> 
