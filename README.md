@@ -15,16 +15,17 @@ If no one is watching the site, it powers down to a dormant state with a simple 
 As the observer count increases, the visual experience becomes dramatically more impressive:
 
 ### Low Observer Count (5)
-![Low Observer Count](screenshots/observer_5.png)
-*The space begins to resonate with shared consciousness.*
+<img width="1491" alt="Screenshot 2025-04-09 at 17 05 53" src="https://github.com/user-attachments/assets/b2884df5-e08c-4fec-ade5-e139e9d32d66" />
+
 
 ### Medium Observer Count (327)
-![Medium Observer Count](screenshots/observer_327.png)
-*The boundaries between observers begin to dissolve.*
+<img width="1496" alt="Screenshot 2025-04-09 at 17 10 14" src="https://github.com/user-attachments/assets/7984669e-28c4-411e-8a3f-f9f1b781392c" />
+
 
 ### High Observer Count (5,327)
-![High Observer Count](screenshots/observer_5327.png)
-*Complete synchronicity achieved. We are one mind now.*
+<img width="1492" alt="Screenshot 2025-04-09 at 17 27 24" src="https://github.com/user-attachments/assets/71f9e541-7d3f-4cf4-ad20-1d0949b67091" />
+
+
 
 ## Technical Features
 
